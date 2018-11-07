@@ -32,7 +32,7 @@ module.exports = (dato, root, i18n) => {
 
   // Add to the existing Hugo config files some properties coming from data
   // stored on DatoCMS
-  ['config.dev.toml', 'config.prod.toml'].forEach(file => {
+  ['config.toml'].forEach(file => {
     root.addToDataFile(file, 'toml', {
       title: dato.site.globalSeo.siteName,
       languageCode: i18n.locale
@@ -40,20 +40,20 @@ module.exports = (dato, root, i18n) => {
   });
 
   // Create a YAML data file to store global data about the site
-  root.createDataFile('data/settings.yml', 'yaml', {
-    name: dato.site.globalSeo.siteName,
-    language: dato.site.locales[0],
-    intro: dato.home.introText,
-    copyright: dato.home.copyright,
+  root.createDataFile('data/work.yml', 'yaml', {
+    title: dato.site.globalSeo.siteName,
+    // language: dato.site.locales[0],
+    subtitle: dato.home.introText,
+    // copyright: dato.home.copyright,
     // iterate over all the `social_profile` item types
-    socialProfiles: dato.socialProfiles.map(profile => {
-      return {
-        type: profile.profileType.toLowerCase().replace(/ +/, '-'),
-        url: profile.url,
-      };
-    }),
-    faviconMetaTags: toHtml(dato.site.faviconMetaTags),
-    seoMetaTags: toHtml(dato.home.seoMetaTags)
+    // socialProfiles: dato.socialProfiles.map(profile => {
+    //   return {
+    //     type: profile.profileType.toLowerCase().replace(/ +/, '-'),
+    //     url: profile.url,
+    //   };
+    // }),
+    // faviconMetaTags: toHtml(dato.site.faviconMetaTags),
+    // seoMetaTags: toHtml(dato.home.seoMetaTags)
   });
 
   // Create a markdown file with content coming from the `about_page` item
@@ -70,26 +70,25 @@ module.exports = (dato, root, i18n) => {
   });
 
   // Create a `work` directory (or empty it if already exists)...
-  root.directory('content/work', dir => {
-    // ...and for each of the works stored online...
-    dato.works.forEach((work, index) => {
-      // ...create a markdown file with all the metadata in the frontmatter
-      dir.createPost(`${work.slug}.md`, 'yaml', {
-        frontmatter: {
-          title: work.title,
-          coverImage: work.coverImage.url({ w: 450, fm: 'jpg', auto: 'compress' }),
-          image: work.coverImage.url({ fm: 'jpg', auto: 'compress' }),
-          detailImage: work.coverImage.url({ w: 600, fm: 'jpg', auto: 'compress' }),
-          excerpt: work.excerpt,
-          seoMetaTags: toHtml(work.seoMetaTags),
-          extraImages: work.gallery.map(item =>
-            item.url({ h: 300, fm: 'jpg', auto: 'compress' })
-          ),
-          weight: index,
-        },
-        content: work.description
-      });
-    });
-  });
+  // root.directory('content/work', dir => {
+  //   // ...and for each of the works stored online...
+  //   dato.works.forEach((work, index) => {
+  //     // ...create a markdown file with all the metadata in the frontmatter
+  //     dir.createPost(`${work.slug}.md`, 'yaml', {
+  //       frontmatter: {
+  //         title: work.title,
+  //         coverImage: work.coverImage.url({ w: 450, fm: 'jpg', auto: 'compress' }),
+  //         image: work.coverImage.url({ fm: 'jpg', auto: 'compress' }),
+  //         detailImage: work.coverImage.url({ w: 600, fm: 'jpg', auto: 'compress' }),
+  //         excerpt: work.excerpt,
+  //         seoMetaTags: toHtml(work.seoMetaTags),
+  //         extraImages: work.gallery.map(item =>
+  //           item.url({ h: 300, fm: 'jpg', auto: 'compress' })
+  //         ),
+  //         weight: index,
+  //       },
+  //       content: work.description
+  //     });
+  //   });
+  // });
 };
-

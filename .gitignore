@@ -1,6 +1,5 @@
-.env
-node_modules
-public
-content
-data
-npm-debug.log
+publick
+.sass-cache
+.jekyll-metadata
+node_modules/
+yarn.lock
